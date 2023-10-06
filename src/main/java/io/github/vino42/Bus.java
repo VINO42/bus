@@ -221,6 +221,7 @@ public class Bus implements Runnable {
             passengerStrategy.busBroken(currentStation, this);
             System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + " 故障！当前修车30秒！ 在站台: " + currentStation.getIndex());
             TimeUnit.SECONDS.sleep(30);
+            System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + " 故障修理完毕！ 在站台: " + currentStation.getIndex());
             return;
 
         }
