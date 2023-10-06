@@ -82,4 +82,15 @@ public class PassengerStrategy implements Strategy {
         bus.setPassengers(new ArrayList<>());
 
     }
+
+    @Override
+    public boolean onFinalStation(Station curretStation, Bus bus) {
+        boolean finalStation = curretStation.isFinalStation(bus);
+        if (finalStation) {
+            //到终点站了 所有乘客要下车。
+            bus.setPassengers(new ArrayList<>());
+            return true;
+        }
+        return false;
+    }
 }

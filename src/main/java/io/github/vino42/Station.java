@@ -131,4 +131,14 @@ public class Station {
                 ", reverseDirectTime=" + reverseDirectTime +
                 '}';
     }
+
+    public boolean isFinalStation(Bus bus) {
+        if (bus.getDirection() == 1 && this.index == 15) {
+            return true;
+        }
+        if (bus.getDirection() == 2 && this.index == 1) {
+            return true;
+        }
+        return false;
+    }
 }

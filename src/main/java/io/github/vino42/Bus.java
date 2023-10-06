@@ -225,8 +225,15 @@ public class Bus implements Runnable {
             return;
 
         }
+        //终点站所有乘客下车
+        boolean isFinalStation = passengerStrategy.onFinalStation(currentStation, this);
+        if (isFinalStation) {
+            //终点站不能上车
+            return;
+        }
+        //正常上下车
         passengerStrategy.offPassenger(currentStation, this);
-
+        //正常上车
         passengerStrategy.loadPassenger(currentStation, this);
 
     }

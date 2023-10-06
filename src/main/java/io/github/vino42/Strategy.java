@@ -18,4 +18,6 @@ public interface Strategy {
     void offPassenger(Station currentStation,Bus bus) throws InterruptedException;
 
     void busBroken(Station currentStation,Bus bus);
+
+    boolean onFinalStation(Station curretStation,Bus bus);
 }
