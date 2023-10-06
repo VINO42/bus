@@ -34,7 +34,7 @@ public class PassengerStrategy implements Strategy {
         List<User> users = new ArrayList<>();
         if (passengers.size() < MAX_PASSGNGER_COUNT) {
             //算出来剩余的空位数
-            int shengyu = 29 - passengers.size();
+            int shengyu = MAX_PASSGNGER_COUNT - passengers.size();
             //如果故障车乘客有的话
             if (!toUpPassenger.isEmpty()) {
                 //剩余空位数大于故障车数优先故障乘客上车

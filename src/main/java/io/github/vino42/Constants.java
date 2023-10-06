@@ -14,6 +14,6 @@ package io.github.vino42;
 public class Constants {
 
     public static final String CUSTOM_NORM_TIME_PATTERN = "HH:mm:ss.SSS";
-    public static final Integer MAX_PASSGNGER_COUNT = 29;
+    public static final Integer MAX_PASSGNGER_COUNT = 50;
 
 }
