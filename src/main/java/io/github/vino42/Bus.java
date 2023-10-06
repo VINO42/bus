@@ -128,7 +128,7 @@ public class Bus implements Runnable {
     @Override
     public void run() {
 
-        System.out.println("当前时间："+ DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "当前公交开始运行| 车号：" + this.getBusNumber());
+        System.out.println("当前时间："+ DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "当前公交开始运行| 车号：" + this.getBusNumber());
         Long seg = 300 * 60 * 60 * 1000L;
         long now = System.currentTimeMillis();
         while (now - startTime < seg) {
@@ -157,11 +157,11 @@ public class Bus implements Runnable {
 
         while (fan.hasNext()) {
             Station currentStation = fan.next();
-            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "反向行驶" + "车号：" + this.getBusNumber() + "停靠站台： " + currentStation.getIndex() + "站台等待乘客数: "
+            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "反向行驶" + "车号：" + this.getBusNumber() + "停靠站台： " + currentStation.getIndex() + "站台等待乘客数: "
                     + currentStation.getWaitingPassenger().size() + "车上乘客数：" + this.getPassengers().size());
             //到站下车上车
             daozhan(currentStation);
-            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + "下车上车完毕 继续出发" + "车上乘客数:" + this.getPassengers().size());
+            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + "下车上车完毕 继续出发" + "车上乘客数:" + this.getPassengers().size());
             Integer forwardDirectTime = currentStation.getForwardDirectTime();
             if (forwardDirectTime != null && currentStation.getNext() != null) {
                 //运行到下一站
@@ -170,13 +170,13 @@ public class Bus implements Runnable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "运行到下一站| 下一站 站号" + currentStation.getNext().getName() + "车上乘客数:" + this.getPassengers().size());
+                System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "运行到下一站| 下一站 站号" + currentStation.getNext().getName() + "车上乘客数:" + this.getPassengers().size());
             } else {
                 //到终点站了 直接跳出循环进行调向
                 break;
             }
         }
-        System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "当前公交到达反向终点，开始正向运行| 车号：" + this.getBusNumber() + "车上乘客数:" + this.getPassengers().size());
+        System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "当前公交到达反向终点，开始正向运行| 车号：" + this.getBusNumber() + "车上乘客数:" + this.getPassengers().size());
         this.setDirection(1);
         zhengXiang();
     }
@@ -186,11 +186,11 @@ public class Bus implements Runnable {
 
         while (it.hasNext()) {
             Station currentStation = it.next();
-            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "正向行驶" + "车号：" + this.getBusNumber() + "停靠站台： " + currentStation.getIndex() + "站台等待乘客数: "
+            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "正向行驶" + "车号：" + this.getBusNumber() + "停靠站台： " + currentStation.getIndex() + "站台等待乘客数: "
                     + currentStation.getWaitingPassenger().size() + "车上乘客数：" + this.getPassengers().size());
 
             daozhan(currentStation);
-            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + "下车上车完毕 继续出发" + "车上乘客数:" + this.getPassengers().size());
+            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + "下车上车完毕 继续出发" + "车上乘客数:" + this.getPassengers().size());
 
             Integer forwardDirectTime = currentStation.getForwardDirectTime();
             if (forwardDirectTime != null && currentStation.getNext() != null) {
@@ -200,13 +200,13 @@ public class Bus implements Runnable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "运行到下一站| 下一站 站号" + currentStation.getNext().getName() + "车上乘客数:" + this.getPassengers().size());
+                System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "运行到下一站| 下一站 站号" + currentStation.getNext().getName() + "车上乘客数:" + this.getPassengers().size());
             } else {
                 //到终点站了 直接跳出循环进行调向
                 break;
             }
         }
-        System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "当前公交到达正向终点，开始反向运行| 车号：" + this.getBusNumber() + "车上乘客数:" + this.getPassengers().size());
+        System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "当前公交到达正向终点，开始反向运行| 车号：" + this.getBusNumber() + "车上乘客数:" + this.getPassengers().size());
         this.setDirection(2);
         fanXiang();
     }
@@ -217,9 +217,9 @@ public class Bus implements Runnable {
         int brokenFlag = RandomUtil.randomInt(1, 11);
         if (brokenFlag == 1) {
             //公交故障拉
-            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + " 故障！全体乘客下车,乘客上车站改为当前站 " + currentStation.getIndex());
+            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + " 故障！全体乘客下车,乘客上车站改为当前站 " + currentStation.getIndex());
             passengerStrategy.busBroken(currentStation, this);
-            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.PURE_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + " 故障！当前修车30秒！ 在站台: " + currentStation.getIndex());
+            System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + " 故障！当前修车30秒！ 在站台: " + currentStation.getIndex());
             TimeUnit.SECONDS.sleep(30);
             return;
 
