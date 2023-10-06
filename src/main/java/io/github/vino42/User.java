@@ -42,6 +42,7 @@ public class User {
     public void setPriority(AtomicInteger priority) {
         this.priority = priority;
     }
+
     public void addPriority() {
         this.priority.getAndAdd(1);
     }

@@ -1,8 +1,5 @@
 package io.github.vino42;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 
@@ -23,15 +20,14 @@ import java.util.stream.IntStream;
  * =====================================================================================
  */
 public class BusRun {
-    private static Deque<Station> directQue;
-    private static Deque reverseQue;
+    private static List<Station> busLine;
 
     private static Integer MAX_NUM = 15;
 
     private static Random RANDOM = new Random();
 
-    static ScheduledThreadPoolExecutor zhengxiang = new ScheduledThreadPoolExecutor(5);
-    static ScheduledThreadPoolExecutor fanxiang = new ScheduledThreadPoolExecutor(5);
+    static ScheduledThreadPoolExecutor zhengxiang = new ScheduledThreadPoolExecutor(10);
+    static ScheduledThreadPoolExecutor fanxiang = new ScheduledThreadPoolExecutor(10);
     static Map<Integer, Integer> direct = new HashMap<>() {
         {
             put(1, 5);
@@ -106,11 +102,7 @@ public class BusRun {
                 station.setNext(list.get(i + 1));
             }
         }
-        List tem = new ArrayList(list.size());
-        tem.addAll(list);
-        directQue = new LinkedList<>(list);
-        CollectionUtil.reverse(tem);
-        reverseQue = new LinkedList(tem);
+        busLine = list;
 
         //每五分钟 生成10个随机站点有目的地的乘客分配到各个车站
         busLinePassenger.scheduleAtFixedRate(() -> {
@@ -118,22 +110,21 @@ public class BusRun {
                 User user = User.initUser();
                 return user;
             }).toList();
-
-            for (Iterator<Station> it = directQue.iterator(); it.hasNext(); ) {
+            ListIterator<Station> it = busLine.listIterator();
+            while (it.hasNext()) {
                 Station next = it.next();
                 List<User> users1 = users.stream().filter(d -> d.getUpStation().getIndex().equals(next.getIndex()) && d.getDirection() == 1).toList();
                 int size = next.getWaitingPassenger().size();
                 next.getWaitingPassenger().addAll(users1);
-                System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"乘客排队等车中| 当前站" + next.getIndex() + "正向添加等待上车乘客数" + users1.size() + " 原有乘客等待数： " + size);
+                System.out.println("当前时间：" + DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN) + "| " + "乘客排队等车中| 当前站" + next.getIndex() + "正向添加等待上车乘客数" + users1.size() + " 原有乘客等待数： " + size);
             }
-            for (Iterator<Station> it = reverseQue.iterator(); it.hasNext(); ) {
-                Station next = it.next();
+            while (it.hasPrevious()) {
+                Station next = it.previous();
                 List<User> user2 = users.stream().filter(d -> d.getUpStation().getIndex().equals(next.getIndex()) && d.getDirection() == 2).toList();
                 int size = next.getWaitingPassenger().size();
                 next.getWaitingPassenger().addAll(user2);
-                System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"乘客排队等车中| 当前站" + next.getIndex() + "反向添加等待上车乘客数" + user2.size() + " 原有乘客等待数： " + size);
+                System.out.println("当前时间：" + DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN) + "| " + "乘客排队等车中| 当前站" + next.getIndex() + "反向添加等待上车乘客数" + user2.size() + " 原有乘客等待数： " + size);
             }
-
 
         }, 1L, 60L, TimeUnit.SECONDS);
     }
@@ -142,24 +133,22 @@ public class BusRun {
     public static void main(String[] args) {
 
 
-        List<Bus> fiveBus = IntStream.range(1, 6).mapToObj(index -> {
+        List<Bus> fiveBus = IntStream.range(1, 21).mapToObj(index -> {
             Bus bus = new Bus();
             bus.setBusNumber(index);
             bus.setDirver(new Driver("司机-" + RandomUtil.randomString(4)));
             bus.setPassengers(new ArrayList<>());
             bus.setDirection(1);
-            bus.setZhengXiangDire(directQue);
-            bus.setFanXiangDire(reverseQue);
+            bus.setBusLine(busLine);
             return bus;
         }).toList();
-        List<Bus> nextFiveBus = IntStream.range(6, 11).mapToObj(index -> {
+        List<Bus> nextFiveBus = IntStream.range(20, 31).mapToObj(index -> {
             Bus bus = new Bus();
             bus.setBusNumber(index);
             bus.setDirver(new Driver("司机-" + RandomUtil.randomString(4)));
             bus.setPassengers(new ArrayList<>());
             bus.setDirection(2);
-            bus.setFanXiangDire(reverseQue);
-            bus.setZhengXiangDire(directQue);
+            bus.setBusLine(busLine);
             return bus;
         }).toList();
         //每15分钟发正向一辆车  这里是为了测试改为30秒跑一次

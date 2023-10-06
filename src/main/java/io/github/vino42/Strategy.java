@@ -13,11 +13,11 @@ package io.github.vino42;
  */
 public interface Strategy {
 
-    void loadPassenger(Station currentStation,Bus bus) throws InterruptedException;
+    void loadPassenger(Station currentStation, Bus bus) throws InterruptedException;
 
-    void offPassenger(Station currentStation,Bus bus) throws InterruptedException;
+    void offPassenger(Station currentStation, Bus bus) throws InterruptedException;
 
-    void busBroken(Station currentStation,Bus bus);
+    void busBroken(Station currentStation, Bus bus);
 
-    boolean onFinalStation(Station curretStation,Bus bus);
+    boolean onFinalStation(Station curretStation, Bus bus);
 }
