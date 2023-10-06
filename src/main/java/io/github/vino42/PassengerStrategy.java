@@ -49,7 +49,7 @@ public class PassengerStrategy implements Strategy {
             //站台减人
             currentStation.getWaitingPassenger().removeAll(users);
             TimeUnit.SECONDS.sleep(users.size() * 10L);
-            System.out.println("车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "乘客上车| 当前站" + currentStation.getIndex() + "上车乘客数" + users.size());
+            System.out.println("线程号："+Thread.currentThread().getId()+"车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "乘客上车| 当前站" + currentStation.getIndex() + "上车乘客数" + users.size());
 
 
         }
@@ -64,8 +64,9 @@ public class PassengerStrategy implements Strategy {
         //下车
         passengers.removeAll(offPassenger);
         bus.setPassengers(passengers);
-        TimeUnit.SECONDS.sleep(offPassenger.size() * 10L);
-        System.out.println("车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "乘客下车| 当前站" + currentStation.getIndex() + "下车乘客数" + offPassenger.size());
+        //正常来说 该故障车需要停顿
+//        TimeUnit.SECONDS.sleep(offPassenger.size() * 10L);
+        System.out.println("线程号："+Thread.currentThread().getId()+"车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "乘客下车| 当前站" + currentStation.getIndex() + "下车乘客数" + offPassenger.size());
     }
 
     @Override
