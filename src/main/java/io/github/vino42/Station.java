@@ -1,5 +1,7 @@
 package io.github.vino42;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -34,7 +36,7 @@ public class Station {
     /**
      * 车站等车人员
      */
-    private List<User> waitingPassenger = new CopyOnWriteArrayList();
+    private List<User> waitingPassenger = Collections.synchronizedList(new ArrayList<>());
 
     public List<User> getWaitingPassenger() {
         return waitingPassenger;

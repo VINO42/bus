@@ -2,10 +2,7 @@ package io.github.vino42;
 
 import cn.hutool.core.util.RandomUtil;
 
-import java.util.Comparator;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +29,7 @@ public class Bus implements Runnable {
     /**
      * 乘客
      */
-    private List<User> passengers = new CopyOnWriteArrayList<>();
+    private List<User> passengers = Collections.synchronizedList(new ArrayList<>());
     /**
      * 正向公交站点路线
      */
