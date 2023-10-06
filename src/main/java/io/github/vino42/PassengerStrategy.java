@@ -39,16 +39,16 @@ public class PassengerStrategy implements Strategy {
                 //剩余空位数大于故障车数优先故障乘客上车
                 if (shengyu > toUpPassenger.size()) {
                     users = toUpPassenger;
-                    System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "故障乘客上车| 当前站" + currentStation.getIndex() + "上车故障乘客数" + toUpPassenger.size());
+                    System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "故障乘客上车| 当前站" + currentStation.getIndex() + "上车故障乘客数" + toUpPassenger.size());
                     //故障乘客上车后,还有空余位置。填充下正常乘客
                     List<User> normalUser = list.stream().filter(d -> !toUpPassenger.contains(d)).toList();
                     List<User> normalUserToLoad = normalUser.subList(0, shengyu - toUpPassenger.size());
                     users.addAll(normalUserToLoad);
-                    System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "正常乘客上车| 当前站" + currentStation.getIndex() + "上车正常乘客数" + normalUserToLoad.size());
+                    System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "正常乘客上车| 当前站" + currentStation.getIndex() + "上车正常乘客数" + normalUserToLoad.size());
                 } else {
                     //剩余空位装不下故障乘客,那就把能装的全装上
                     users = toUpPassenger.subList(0, shengyu + 1);
-                    System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "故障乘客上车| 当前站" + currentStation.getIndex() + "上车故障乘客数" + users.size());
+                    System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "故障乘客上车| 当前站" + currentStation.getIndex() + "上车故障乘客数" + users.size());
                 }
             } else {
                 if (shengyu > list.size()) {
@@ -64,7 +64,7 @@ public class PassengerStrategy implements Strategy {
             currentStation.getWaitingPassenger().removeAll(users);
         }
         TimeUnit.SECONDS.sleep(users.size() * 10L);
-        System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "乘客上车| 当前站" + currentStation.getIndex() + "上车乘客数" + users.size());
+        System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "乘客上车| 当前站" + currentStation.getIndex() + "上车乘客数" + users.size());
 
 
     }
@@ -78,7 +78,7 @@ public class PassengerStrategy implements Strategy {
         bus.setPassengers(passengers);
         //正常来说 该故障车需要停顿
         TimeUnit.SECONDS.sleep(10L);
-        System.out.println("当前时间："+ DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "乘客下车| 当前站" + currentStation.getIndex() + "下车乘客数" + offPassenger.size());
+        System.out.println("当前时间："+ DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "乘客下车| 当前站" + currentStation.getIndex() + "下车乘客数" + offPassenger.size());
     }
 
     @Override
@@ -99,7 +99,7 @@ public class PassengerStrategy implements Strategy {
         if (finalStation) {
             //到终点站了 所有乘客要下车。
             bus.setPassengers(new ArrayList<>());
-            System.out.println("当前时间："+ DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "终点站乘客下车| 当前站" + curretStation.getIndex() + "终点站下车乘客数" + bus.getPassengers().size());
+            System.out.println("当前时间："+ DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"线程号：" + Thread.currentThread().getId() + " " + "车号：" + bus.getBusNumber() + (bus.getDirection() == 1 ? "正向" : "反向") + "终点站乘客下车| 当前站" + curretStation.getIndex() + "终点站下车乘客数" + bus.getPassengers().size());
             return true;
         }
         return false;

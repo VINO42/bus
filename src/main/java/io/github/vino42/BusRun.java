@@ -123,13 +123,13 @@ public class BusRun {
                 Station next = it.next();
                 List<User> users1 = users.stream().filter(d -> d.getUpStation().getIndex().equals(next.getIndex()) && d.getDirection() == 1).toList();
                 next.getWaitingPassenger().addAll(users1);
-                System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"乘客排队等车中| 当前站" + next.getIndex() + "正向添加等待上车乘客数" + users1.size() + "原有乘客等待数： " + next.getWaitingPassenger().size());
+                System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"乘客排队等车中| 当前站" + next.getIndex() + "正向添加等待上车乘客数" + users1.size() + "原有乘客等待数： " + next.getWaitingPassenger().size());
             }
             for (Iterator<Station> it = reverseQue.iterator(); it.hasNext(); ) {
                 Station next = it.next();
                 List<User> user2 = users.stream().filter(d -> d.getUpStation().getIndex().equals(next.getIndex()) && d.getDirection() == 2).toList();
                 next.getWaitingPassenger().addAll(user2);
-                System.out.println("当前时间："+DateUtil.format(new Date(), DatePattern.NORM_TIME_PATTERN)+"| "+"乘客排队等车中| 当前站" + next.getIndex() + "反向添加等待上车乘客数" + user2.size() + "原有乘客等待数： " + next.getWaitingPassenger().size());
+                System.out.println("当前时间："+DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN)+"| "+"乘客排队等车中| 当前站" + next.getIndex() + "反向添加等待上车乘客数" + user2.size() + "原有乘客等待数： " + next.getWaitingPassenger().size());
             }
 
 
