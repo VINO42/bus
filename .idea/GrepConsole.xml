@@ -39,7 +39,7 @@
                             <option name="models">
                               <list>
                                 <GrepModel>
-                                  <option name="expression" value="上车乘客数 " />
+                                  <option name="expression" value="上车乘客数" />
                                 </GrepModel>
                               </list>
                             </option>
@@ -100,6 +100,21 @@
                               <list>
                                 <GrepModel>
                                   <option name="expression" value="车号：10" />
+                                </GrepModel>
+                              </list>
+                            </option>
+                          </GrepCompositeModel>
+                        </option>
+                      </Pin>
+                      <Pin>
+                        <option name="consoleUUID" value="d2533d47-b55a-40b0-8fe5-6614c4b25ec6" />
+                        <option name="contentType" value="ConsoleContent" />
+                        <option name="grepCompositeModel">
+                          <GrepCompositeModel>
+                            <option name="models">
+                              <list>
+                                <GrepModel>
+                                  <option name="expression" value="当前公交开始运" />
                                 </GrepModel>
                               </list>
                             </option>
