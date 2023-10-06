@@ -146,7 +146,7 @@ public class BusRun {
             bus.setFanXiangDire(reverseQue);
             return bus;
         }).toList();
-        List<Bus> nextFiveBus = IntStream.range(1, 6).mapToObj(index -> {
+        List<Bus> nextFiveBus = IntStream.range(6, 11).mapToObj(index -> {
             Bus bus = new Bus();
             bus.setBusNumber(index);
             bus.setDirver(new Driver("司机-" + RandomUtil.randomString(4)));
