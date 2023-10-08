@@ -8,6 +8,9 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
+import static io.github.vino42.Constants.MAX_RUN_TIME;
+import static io.github.vino42.Constants.SEG_RUN_TIME;
+
 /**
  * =====================================================================================
  *
@@ -25,9 +28,11 @@ public class BusRun {
     private static Integer MAX_NUM = 15;
 
     private static Random RANDOM = new Random();
-
-    static ScheduledThreadPoolExecutor zhengxiang = new ScheduledThreadPoolExecutor(10);
-    static ScheduledThreadPoolExecutor fanxiang = new ScheduledThreadPoolExecutor(10);
+    //正向路线发车线程池 核心线程数5个 对应5个车即 5个任务
+    static ScheduledThreadPoolExecutor zhengxiang = new ScheduledThreadPoolExecutor(5);
+    //反向路线发车线程池 核心线程数5个 对应5个车即 5个任务
+    static ScheduledThreadPoolExecutor fanxiang = new ScheduledThreadPoolExecutor(5);
+    //正向路线 站点间隔时间mapping映射 key是站点标识 value是正向站点的间隔时间
     static Map<Integer, Integer> direct = new HashMap<>() {
         {
             put(1, 5);
@@ -46,6 +51,7 @@ public class BusRun {
             put(14, 3);
         }
     };
+    //反向路线 站点间隔时间mapping映射 key是站点标识 value是反向站点的间隔时间
     static Map<Integer, Integer> reverse = new HashMap<>() {
         {
             put(2, 4);
@@ -65,8 +71,10 @@ public class BusRun {
 
         }
     };
+    //站点乘客生成线程池
     static ScheduledThreadPoolExecutor busLinePassenger = new ScheduledThreadPoolExecutor(15);
 
+    //使用静态代码块 进行站点路线的初始化
     static {
 
         List<Station> list = IntStream.range(1, 16).mapToObj(index -> {
@@ -104,7 +112,7 @@ public class BusRun {
         }
         busLine = list;
 
-        //每五分钟 生成10个随机站点有目的地的乘客分配到各个车站
+        //每1分钟 生成100个随机站点有目的地的乘客分配到各个车站
         busLinePassenger.scheduleAtFixedRate(() -> {
             List<User> users = IntStream.range(1, 101).mapToObj(num -> {
                 User user = User.initUser();
@@ -132,8 +140,8 @@ public class BusRun {
 
     public static void main(String[] args) {
 
-
-        List<Bus> fiveBus = IntStream.range(1, 21).mapToObj(index -> {
+        //5个正向车生成
+        List<Bus> fiveBus = IntStream.range(1, 6).mapToObj(index -> {
             Bus bus = new Bus();
             bus.setBusNumber(index);
             bus.setDirver(new Driver("司机-" + RandomUtil.randomString(4)));
@@ -142,7 +150,8 @@ public class BusRun {
             bus.setBusLine(busLine);
             return bus;
         }).toList();
-        List<Bus> nextFiveBus = IntStream.range(20, 31).mapToObj(index -> {
+        //5个反向行驶车生成
+        List<Bus> nextFiveBus = IntStream.range(6, 11).mapToObj(index -> {
             Bus bus = new Bus();
             bus.setBusNumber(index);
             bus.setDirver(new Driver("司机-" + RandomUtil.randomString(4)));
@@ -152,14 +161,26 @@ public class BusRun {
             return bus;
         }).toList();
         //每15分钟发正向一辆车  这里是为了测试改为30秒跑一次
-        fiveBus.forEach(bus -> {
+        for (int i = 0; i < fiveBus.size(); i++) {
+            Bus bus = fiveBus.get(i);
+            if (i == 0) {
+                bus.setRunTime(MAX_RUN_TIME);
+            } else {
+                bus.setRunTime(MAX_RUN_TIME - SEG_RUN_TIME * i);
+            }
             bus.setStartTime(System.currentTimeMillis());
             zhengxiang.schedule(bus, 30, TimeUnit.SECONDS);
-        });
+        }
         //每15分钟发反向一辆车 这里是为了测试改为30秒跑一次
-        nextFiveBus.forEach(bus -> {
+        for (int i = 0; i < nextFiveBus.size(); i++) {
+            Bus bus = nextFiveBus.get(i);
+            if (i == 0) {
+                bus.setRunTime(MAX_RUN_TIME);
+            } else {
+                bus.setRunTime(MAX_RUN_TIME - SEG_RUN_TIME * i);
+            }
             bus.setStartTime(System.currentTimeMillis());
-            fanxiang.schedule(bus, 30, TimeUnit.SECONDS);
-        });
+            zhengxiang.schedule(bus, 30, TimeUnit.SECONDS);
+        }
     }
 }

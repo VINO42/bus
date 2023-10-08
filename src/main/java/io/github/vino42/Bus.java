@@ -40,6 +40,8 @@ public class Bus implements Runnable {
      */
     private Long startTime;
 
+    private Long runTime;
+
 
     /**
      * 公交站路线是正向还是反向，正向为1反向为2
@@ -96,13 +98,21 @@ public class Bus implements Runnable {
         this.busLine = busLine;
     }
 
+    public Long getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(Long runTime) {
+        this.runTime = runTime;
+    }
+
     @Override
     public void run() {
 
         System.out.println("当前时间：" + DateUtil.format(new Date(), Constants.CUSTOM_NORM_TIME_PATTERN) + "| " + "线程号：" + Thread.currentThread().getId() + " " + "车号：" + this.getBusNumber() + (this.getDirection() == 1 ? "正向" : "反向") + "当前公交开始运行| 车号：" + this.getBusNumber());
-        Long seg = 300 * 60 * 60 * 1000L;
-        long now = System.currentTimeMillis();
-        while (now - startTime < seg) {
+
+        //当前车如果在规定的运行间隔内
+        while (System.currentTimeMillis() - startTime < runTime) {
             ListIterator<Station> it = busLine.listIterator();
             //正向的车
             if (this.getDirection() == 1) {
@@ -121,9 +131,15 @@ public class Bus implements Runnable {
                 }
             }
         }
+        //时间到了车停了
         Thread.currentThread().interrupt();
     }
 
+    /**
+     * 反向路线行驶
+     * @param it
+     * @throws InterruptedException
+     */
     private void fanXiang(ListIterator<Station> it) throws InterruptedException {
 
         while (it.hasPrevious()) {
@@ -137,6 +153,7 @@ public class Bus implements Runnable {
             if (forwardDirectTime != null && currentStation.getNext() != null) {
                 //运行到下一站
                 try {
+                    //这里为了展示 写了10秒， 这里的10应该是反向路线车站间隔时间
                     TimeUnit.SECONDS.sleep(10);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -152,6 +169,11 @@ public class Bus implements Runnable {
         zhengXiang(it);
     }
 
+    /**
+     * 正向路线行驶
+     * @param it
+     * @throws InterruptedException
+     */
     private void zhengXiang(ListIterator<Station> it) throws InterruptedException {
         while (it.hasNext()) {
             Station currentStation = it.next();
@@ -165,7 +187,8 @@ public class Bus implements Runnable {
             if (forwardDirectTime != null && currentStation.getNext() != null) {
                 //运行到下一站
                 try {
-                    TimeUnit.SECONDS.sleep(forwardDirectTime);
+                    //这里为了展示 写了10秒， 这里的10应该是正向路线车站间隔时间
+                    TimeUnit.SECONDS.sleep(10);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
